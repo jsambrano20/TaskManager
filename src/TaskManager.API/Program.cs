@@ -20,9 +20,11 @@ builder.Services.AddControllers(options =>
 });
 
 // Configurar Swagger/OpenAPI
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "TaskManager API", Version = "v1" });
+    options.DescribeAllParametersInCamelCase();
+
     options.AddSecurityDefinition("BasicAuth", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.Http,
@@ -41,6 +43,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+builder.Services.AddEndpointsApiExplorer();
 
 // Adicionar autenticação e especificar o handler customizado para "Basic" Auth
 builder.Services.AddAuthentication("BasicAuthentication")
@@ -71,7 +74,6 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskManager API v1");
 });
-
 
 app.UseHttpsRedirection();
 

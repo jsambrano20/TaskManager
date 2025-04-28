@@ -8,7 +8,7 @@ services:
       dockerfile: src/TaskManager.API/Dockerfile
     container_name: taskmanager-api
     ports:
-      - "5000:80"
+      - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Database=task-manager-db;Username=admin;Password=senha123;

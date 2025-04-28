@@ -44,36 +44,30 @@ namespace TaskManager.Infrastructure.Repository
         }
         public void Update(TaskItem task)
         {
-            // Atualiza a tarefa
             _context.Update(task);
 
-            // Update or add comments
             foreach (var comment in task.Comments)
             {
-                if (comment.Id == 0) // If it's a new comment, add it
+                if (comment.Id == 0)
                 {
                     _context.Entry(comment).State = EntityState.Added;
                 }
-                else // If the comment already exists, update it
+                else
                 {
                     _context.Entry(comment).State = EntityState.Modified;
                 }
             }
-
-            // Update or add history
             foreach (var history in task.History)
             {
-                if (history.Id == 0) // If it's a new history, add it
+                if (history.Id == 0)
                 {
                     _context.Entry(history).State = EntityState.Added;
                 }
-                else // If the history already exists, update it
+                else
                 {
                     _context.Entry(history).State = EntityState.Modified;
                 }
             }
-
-            // Save changes
             _context.SaveChanges();
         }
 
