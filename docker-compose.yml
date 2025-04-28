@@ -1,0 +1,32 @@
+﻿version: '3.8'
+
+services:
+  taskmanager.api:
+    image: ${DOCKER_REGISTRY-}taskmanagerapi
+    build:
+      context: .
+      dockerfile: src/TaskManager.API/Dockerfile
+    container_name: taskmanager-api
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Database=task-manager-db;Username=admin;Password=senha123;
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-alpine
+    container_name: taskmanager-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: task-manager-db 
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
